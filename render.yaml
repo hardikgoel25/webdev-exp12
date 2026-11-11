@@ -1,0 +1,24 @@
+# Name     : Hardik Goel
+# Roll No  : 03416403223
+# Experiment 12 : Containerization and Production Deployment
+
+# Render Blueprint: one Docker web service plus a managed PostgreSQL database.
+services:
+  - type: web
+    name: notes-app
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PGSSL
+        value: require
+      - key: DATABASE_URL               # injected from the managed database, never committed
+        fromDatabase:
+          name: notes-db
+          property: connectionString
+
+databases:
+  - name: notes-db
+    plan: free

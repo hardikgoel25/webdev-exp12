@@ -1,0 +1,33 @@
+<!-- Name     : Hardik Goel
+     Roll No  : 03416403223
+     Experiment 12 : Containerization and Production Deployment -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+    <style>
+        body { font-family: Segoe UI, sans-serif; max-width: 560px; margin: 40px auto; }
+        form { display: flex; gap: 8px; } input { flex: 1; padding: 8px; }
+        li { padding: 8px 0; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Notes (Docker + PostgreSQL)</h1>
+    <form id="f"><input id="t" placeholder="Write a note" required><button>Save</button></form>
+    <ul id="list"></ul>
+    <script>
+        async function load() {
+            const notes = await (await fetch('/api/notes')).json();
+            list.innerHTML = notes.map(n => `<li>${n.text.replace(/</g, '&lt;')}</li>`).join('');
+        }
+        f.addEventListener('submit', async e => {
+            e.preventDefault();
+            await fetch('/api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ text: t.value }) });
+            t.value = ''; load();
+        });
+        load();
+    </script>
+</body>
+</html>

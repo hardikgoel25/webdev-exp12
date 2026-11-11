@@ -1,0 +1,7 @@
+# dependencies and secrets
+node_modules/
+.env
+
+# lab-file artefacts, not part of the app
+*.png
+deploy.bat
